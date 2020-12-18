@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+export MOODLE_DOCKER_DB=mariadb
+#export MOODLE_DOCKER_DB=pgsql
+export MOODLE_DOCKER_WWWROOT=../skilla
+
 if [ ! -d "$MOODLE_DOCKER_WWWROOT" ];
 then
     echo 'Error: $MOODLE_DOCKER_WWWROOT is not set or not an existing directory'
@@ -100,7 +104,7 @@ then
     # If no bind ip has been configured (bind_ip:port), default to 127.0.0.1
     if [[ ! $MOODLE_DOCKER_WEB_PORT == *":"* ]]
     then
-        MOODLE_DOCKER_WEB_PORT=127.0.0.1:$MOODLE_DOCKER_WEB_PORT
+        MOODLE_DOCKER_WEB_PORT=$MOODLE_DOCKER_WEB_PORT
     fi
     dockercompose="${dockercompose} -f ${basedir}/webserver.port.yml"
 fi
